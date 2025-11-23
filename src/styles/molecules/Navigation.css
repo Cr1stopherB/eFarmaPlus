@@ -1,0 +1,6 @@
+/* styles/molecules/Navigation.css */
+.navigation {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}

@@ -1,0 +1,19 @@
+/* styles/molecules/UserActions.css */
+.user-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.action-button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.3rem;
+  transition: transform 0.2s ease;
+}
+
+.action-button:hover {
+  transform: scale(1.1);
+}
