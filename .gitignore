@@ -7,6 +7,17 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+.env
+.env.example
+ADMIN_PASSWORD
+ADMIN_USERNAME
+VITE_API_URL
+VITE_API_TIMEOUT
+VITE_IMGBB_API_KEY
+ADMIN_GUIDE.md
+
+
+
 node_modules
 dist
 dist-ssr

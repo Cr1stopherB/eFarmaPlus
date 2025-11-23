@@ -1,14 +1,53 @@
 // App.jsx
+// Componente principal con configuración de rutas dinámicas
 import React from 'react';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { CartProvider } from './context/CartContext';
+import { AuthProvider } from './context/AuthContext';
 import Header from './components/organisms/Header';
+import Footer from './components/organisms/Footer';
+import PrivateRoute from './components/molecules/PrivateRoute';
+import { publicRoutes, adminRoutes } from './routes/config';
+import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      {/* El resto de tu aplicación irá aquí */}
-    </div>
+    <Router>
+      {/* AuthProvider provee el contexto de autenticación */}
+      <AuthProvider>
+        {/* CartProvider provee el contexto del carrito a toda la app */}
+        <CartProvider>
+          <div className="App">
+            {/* Header aparece en todas las páginas */}
+            <Header />
+
+            {/* Rutas PUBLIC dinámicas + ADMIN protegidas */}
+            <Routes>
+              {/* Rutas públicas */}
+              {publicRoutes.map(({ path, element: Element }) => (
+                <Route key={path} path={path} element={<Element />} />
+              ))}
+
+              {/* Rutas de admin protegidas */}
+              {adminRoutes.map(({ path, element: Element }) => (
+                <Route
+                  key={path}
+                  path={path}
+                  element={
+                    <PrivateRoute requiredRole="admin">
+                      <Element />
+                    </PrivateRoute>
+                  }
+                />
+              ))}
+            </Routes>
+
+            {/* Footer aparece en todas las páginas */}
+            <Footer />
+          </div>
+        </CartProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 

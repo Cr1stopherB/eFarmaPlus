@@ -1,0 +1,100 @@
+/* styles/molecules/Table.css */
+/* Estilos para tablas dinámicas */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dynamic-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.dynamic-table thead {
+    background: linear-gradient(135deg, var(--primary-green) 0%, #047857 100%);
+    color: white;
+}
+
+.dynamic-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.dynamic-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.2s;
+}
+
+.dynamic-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.dynamic-table tbody tr.clickable {
+    cursor: pointer;
+}
+
+.dynamic-table td {
+    padding: 1rem;
+    color: #374151;
+}
+
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    padding-right: 1.5rem !important;
+}
+
+.btn-action {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.btn-edit:hover {
+    background: #dbeafe;
+}
+
+.btn-delete:hover {
+    background: #fee2e2;
+}
+
+.table-empty {
+    padding: 3rem;
+    text-align: center;
+    color: #9ca3af;
+}
+
+.table-empty p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dynamic-table {
+        font-size: 0.8rem;
+    }
+
+    .dynamic-table th,
+    .dynamic-table td {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .btn-action {
+        font-size: 1rem;
+    }
+}

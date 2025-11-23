@@ -1,0 +1,154 @@
+/* styles/atoms/ProductCard.css */
+/* Tarjeta de producto estilo e-commerce moderno */
+
+.product-card {
+    background: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    border: 1px solid #e5e7eb;
+}
+
+.product-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Badge de descuento - Esquina superior derecha */
+.discount-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    z-index: 10;
+    clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Imagen del producto */
+.product-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+/* Información del producto */
+.product-info {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 6px;
+}
+
+/* Categoría/Marca */
+.product-category {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #6b7280;
+    margin: 0;
+    letter-spacing: 0.3px;
+}
+
+/* Nombre del producto */
+.product-name {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #374151;
+    margin: 0;
+    line-height: 1.3;
+    min-height: 34px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Precios */
+.product-pricing {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: auto;
+    margin-bottom: 10px;
+}
+
+.price-original {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    text-decoration: line-through;
+    font-weight: 400;
+}
+
+.price-main {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+}
+
+.price-currency {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ef4444;
+}
+
+.price-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ef4444;
+    line-height: 1;
+}
+
+/* Botón dentro de la tarjeta */
+.product-card .btn {
+    margin-top: auto;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+    .product-image {
+        height: 170px;
+    }
+
+    .product-info {
+        padding: 10px;
+    }
+
+    .product-name {
+        font-size: 0.75rem;
+        min-height: 30px;
+    }
+
+    .price-value {
+        font-size: 1.25rem;
+    }
+}

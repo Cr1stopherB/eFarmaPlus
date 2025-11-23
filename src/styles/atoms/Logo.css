@@ -1,0 +1,26 @@
+/* styles/atoms/Logo.css */
+/* Estilos para el logo de la farmacia */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo-icon {
+  font-size: 2rem;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #059669; /* Verde farmacia */
+  letter-spacing: -0.5px;
+}
+
+.logo:hover .logo-text {
+  color: #047857; /* Verde más oscuro al hover */
+}
