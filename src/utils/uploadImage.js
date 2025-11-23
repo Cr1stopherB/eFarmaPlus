@@ -2,116 +2,110 @@
 // Utilidad para comprimir y subir imágenes a ImgBB
 import Resizer from 'react-image-file-resizer';
 
+const IMGBB_API_KEY = import.meta.env.VITE_IMGBB_API_KEY;
+
 /**
- * Comprime y convierte imagen a WebP
+ * Función principal para subir imagen a ImgBB con compresión y preview
  * 
- * @param {File} file - Archivo de imagen original
- * @param {Number} maxWidth - Ancho máximo (default: 800)
- * @param {Number} maxHeight - Alto máximo (default: 800)
- * @param {Number} quality - Calidad 0-100 (default: 80)
- * @returns {Promise<Blob>} - Imagen comprimida en formato WebP
+ * @param {File} file - Archivo de imagen a subir
+ * @param {Object} options - Opciones de compresión
+ * @param {number} options.maxWidth - Ancho máximo (default: 1024)
+ * @param {number} options.maxHeight - Alto máximo (default: 1024)
+ * @param {number} options.quality - Calidad 0-100 (default: 80)
+ * @returns {Promise<{url: string, preview: string}>} - URL de ImgBB y preview local
  */
-const compressImage = (file, maxWidth = 800, maxHeight = 800, quality = 80) => {
+export const uploadToImgBB = async (file, options = {}) => {
+    const {
+        maxWidth = 1024,
+        maxHeight = 1024,
+        quality = 80
+    } = options;
+
+    console.log('Intentando subir imagen...');
+    console.log('API Key configurada:', IMGBB_API_KEY ? 'SÍ' : 'NO');
+
+    if (!IMGBB_API_KEY) {
+        console.error('Falta VITE_IMGBB_API_KEY en .env');
+        throw new Error('Configuración incompleta: Falta API Key de ImgBB');
+    }
+
     return new Promise((resolve, reject) => {
-        Resizer.imageFileResizer(
-            file,
-            maxWidth,
-            maxHeight,
-            'WEBP', // Formato de salida
-            quality, // Calidad
-            0, // Rotación
-            (blob) => {
-                resolve(blob);
-            },
-            'blob', // Tipo de salida
-            maxWidth,
-            maxHeight
-        );
+        try {
+            Resizer.imageFileResizer(
+                file,
+                maxWidth,
+                maxHeight,
+                'WEBP',
+                quality,
+                0,
+                async (uri) => {
+                    try {
+                        if (!uri || typeof uri !== 'string') {
+                            reject(new Error("Error al procesar la imagen"));
+                            return;
+                        }
+
+                        const base64 = uri.split(',')[1];
+                        if (!base64) {
+                            reject(new Error("Formato base64 inválido"));
+                            return;
+                        }
+
+                        const formData = new FormData();
+                        formData.append('image', base64);
+
+                        const response = await fetch(
+                            `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
+                            {
+                                method: 'POST',
+                                body: formData
+                            }
+                        );
+
+                        if (!response.ok) {
+                            throw new Error(`Error HTTP: ${response.status}`);
+                        }
+
+                        const result = await response.json();
+
+                        if (result.success) {
+                            resolve({
+                                url: result.data.url,
+                                preview: uri, // Preview local en base64
+                                deleteUrl: result.data.delete_url // Opcional: para eliminar luego
+                            });
+                        } else {
+                            reject(new Error(result.error?.message || "Error al subir la imagen"));
+                        }
+                    } catch (err) {
+                        reject(err);
+                    }
+                },
+                'base64'
+            );
+        } catch (err) {
+            reject(err);
+        }
     });
 };
 
 /**
- * Sube imagen comprimida a ImgBB
- * 
- * @param {Blob} imageBlob - Imagen comprimida
- * @returns {Promise<String>} - URL de la imagen subida
- */
-const uploadToImgBB = async (imageBlob) => {
-    const apiKey = import.meta.env.VITE_IMGBB_API_KEY;
-
-    if (!apiKey) {
-        throw new Error('API Key de ImgBB no configurada. Agrega VITE_IMGBB_API_KEY a tu archivo .env');
-    }
-
-    const formData = new FormData();
-    formData.append('image', imageBlob);
-
-    try {
-        const response = await fetch(
-            `https://api.imgbb.com/1/upload?key=${apiKey}`,
-            {
-                method: 'POST',
-                body: formData
-            }
-        );
-
-        const data = await response.json();
-
-        if (data.success) {
-            return data.data.url;
-        } else {
-            throw new Error(data.error?.message || 'Error al subir imagen');
-        }
-    } catch (error) {
-        console.error('Error al subir imagen:', error);
-        throw error;
-    }
-};
-
-/**
- * Función principal para procesar y subir imagen
- * 
- * @param {File} file - Archivo de imagen
- * @returns {Promise<String>} - URL de la imagen subida
- * 
- * Uso:
- * const imageUrl = await uploadImage(file);
- */
-export const uploadImage = async (file) => {
-    try {
-        // 1. Comprimir y convertir a WebP
-        const compressedBlob = await compressImage(file);
-
-        // 2. Subir a ImgBB
-        const imageUrl = await uploadToImgBB(compressedBlob);
-
-        return imageUrl;
-    } catch (error) {
-        console.error('Error en uploadImage:', error);
-        throw error;
-    }
-};
-
-/**
- * Validar que el archivo sea una imagen válida
+ * Validar archivo de imagen
  * 
  * @param {File} file - Archivo a validar
- * @param {Number} maxSizeMB - Tamaño máximo en MB (default: 5)
+ * @param {number} maxSizeMB - Tamaño máximo en MB (default: 5)
  * @returns {Object} { valid: boolean, error: string }
  */
 export const validateImageFile = (file, maxSizeMB = 5) => {
-    // Verificar que sea un archivo
     if (!file) {
         return { valid: false, error: 'No se seleccionó ningún archivo' };
     }
 
-    // Verificar tipo de archivo
     if (!file.type.startsWith('image/')) {
         return { valid: false, error: 'El archivo debe ser una imagen' };
     }
 
-    // Verificar tamaño
-    const maxSize = maxSizeMB * 1024 * 1024; // Convertir a bytes
+    const maxSize = maxSizeMB * 1024 * 1024;
     if (file.size > maxSize) {
         return {
             valid: false,
@@ -122,4 +116,20 @@ export const validateImageFile = (file, maxSizeMB = 5) => {
     return { valid: true, error: null };
 };
 
-export default uploadImage;
+/**
+ * Función completa con validación
+ * 
+ * @param {File} file - Archivo de imagen
+ * @param {Object} options - Opciones de compresión
+ * @returns {Promise<{url: string, preview: string}>}
+ */
+export const uploadImageWithValidation = async (file, options = {}) => {
+    // Validar archivo
+    const validation = validateImageFile(file, options.maxSizeMB);
+    if (!validation.valid) {
+        throw new Error(validation.error);
+    }
+
+    // Subir imagen
+    return await uploadToImgBB(file, options);
+};

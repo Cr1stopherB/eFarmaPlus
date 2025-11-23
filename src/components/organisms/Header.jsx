@@ -1,9 +1,10 @@
 // components/organisms/Header.jsx
-// Header estilo moderno simplificado y centrado
-import React, { useState } from 'react';
+// Header estilo moderno simplificado y centrado con categorías dinámicas
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
+import { getCategories } from '../../services/productService';
 import '../../styles/organisms/Header.css';
 
 const Header = () => {
@@ -11,6 +12,21 @@ const Header = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
+  const [categories, setCategories] = useState([]);
+
+  // Cargar categorías desde la API
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const categoriesData = await getCategories();
+        // Limitar a las primeras 4 categorías para el header
+        setCategories(categoriesData.slice(0, 4));
+      } catch (error) {
+        console.error('Error al cargar categorías:', error);
+      }
+    };
+    loadCategories();
+  }, []);
 
   // Manejar búsqueda
   const handleSearch = (e) => {
@@ -79,15 +95,20 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Navegación secundaria */}
+      {/* Navegación secundaria - Categorías dinámicas */}
       <div className="header-nav">
         <div className="nav-container">
           <Link to="/" className="nav-link">Inicio</Link>
           <Link to="/productos" className="nav-link">Todos los Productos</Link>
-          <Link to="/productos?categoria=Medicamentos" className="nav-link">Medicamentos</Link>
-          <Link to="/productos?categoria=Vitaminas" className="nav-link">Vitaminas</Link>
-          <Link to="/productos?categoria=Cuidado Personal" className="nav-link">Cuidado Personal</Link>
-          <Link to="/productos?categoria=Dermatología" className="nav-link">Dermatología</Link>
+          {categories.map(category => (
+            <Link
+              key={category.id}
+              to={`/productos?categoria=${category.name}`}
+              className="nav-link"
+            >
+              {category.name}
+            </Link>
+          ))}
         </div>
       </div>
     </header>

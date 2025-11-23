@@ -63,10 +63,6 @@ const Home = () => {
                         <span className="category-icon">💊</span>
                         <h3>Medicamentos</h3>
                     </div>
-                    <div className="category-card" onClick={() => navigate('/productos?categoria=Vitaminas')}>
-                        <span className="category-icon">🧪</span>
-                        <h3>Vitaminas</h3>
-                    </div>
                     <div className="category-card" onClick={() => navigate('/productos?categoria=Cuidado Personal')}>
                         <span className="category-icon">🧴</span>
                         <h3>Cuidado Personal</h3>

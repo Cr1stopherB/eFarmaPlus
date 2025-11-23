@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 // URL base del backend
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://efarmaplusback.onrender.com/api';
 const API_TIMEOUT = import.meta.env.VITE_API_TIMEOUT || 30000;
 
 // Crear instancia de axios configurada

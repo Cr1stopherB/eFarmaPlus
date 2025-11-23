@@ -148,21 +148,32 @@ const ProductsAdmin = () => {
                 }
             }
 
+            // Validación estricta de categoría
+            if (!formData.categoryId) {
+                alert('La categoría es obligatoria');
+                setIsLoading(false);
+                return;
+            }
+
             const productData = {
                 name: formData.name,
-                categoryId: Number(formData.categoryId),
-                laboratoryId: Number(formData.laboratoryId),
+                categoryId: formData.categoryId ? Number(formData.categoryId) : null,
+                laboratoryId: formData.laboratoryId ? Number(formData.laboratoryId) : null,
                 price: Number(formData.price),
                 stock: Number(formData.stock),
                 description: formData.description || '',
                 // La imagen se maneja por separado en tu backend
             };
 
+            console.log('Datos a enviar al backend:', productData);
+            console.log('URL de imagen (si existe):', imageUrl);
+
             if (editingProduct) {
                 // Editar producto existente
                 const updatedProduct = await productService.updateProduct(
                     editingProduct.id,
-                    productData
+                    productData,
+                    imageUrl  // Pasar URL de imagen si existe
                 );
                 setProducts(products.map(p =>
                     p.id === editingProduct.id ? updatedProduct : p
@@ -170,7 +181,10 @@ const ProductsAdmin = () => {
                 alert('Producto actualizado exitosamente');
             } else {
                 // Crear nuevo producto
-                const newProduct = await productService.createProduct(productData);
+                const newProduct = await productService.createProduct(
+                    productData,
+                    imageUrl  // Pasar URL de imagen si existe
+                );
                 setProducts([...products, newProduct]);
                 alert('Producto creado exitosamente');
             }

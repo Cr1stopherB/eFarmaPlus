@@ -1,6 +1,4 @@
-// services/imageService.js
-// Servicio para gestión de imágenes
-import { uploadImage, validateImageFile } from '../utils/uploadImage';
+import { uploadImageWithValidation } from '../utils/uploadImage';
 
 /**
  * Servicio de imágenes
@@ -14,19 +12,18 @@ class ImageService {
      * @returns {Promise<String>} - URL de la imagen
      */
     async uploadProductImage(file) {
-        // Validar archivo
-        const validation = validateImageFile(file, 5); // Máximo 5MB
-        if (!validation.valid) {
-            throw new Error(validation.error);
-        }
-
         try {
-            // Subir imagen
-            const imageUrl = await uploadImage(file);
-            return imageUrl;
+            // uploadImageWithValidation ya incluye la validación
+            const result = await uploadImageWithValidation(file, {
+                maxWidth: 800,
+                maxHeight: 800,
+                quality: 80,
+                maxSizeMB: 5
+            });
+            return result.url;
         } catch (error) {
             console.error('Error al subir imagen de producto:', error);
-            throw new Error('No se pudo subir la imagen. Intenta nuevamente.');
+            throw new Error(error.message || 'No se pudo subir la imagen. Intenta nuevamente.');
         }
     }
 
@@ -37,18 +34,17 @@ class ImageService {
      * @returns {Promise<String>} - URL de la imagen
      */
     async uploadUserAvatar(file) {
-        // Validar archivo (tamaño más pequeño para avatares)
-        const validation = validateImageFile(file, 2); // Máximo 2MB
-        if (!validation.valid) {
-            throw new Error(validation.error);
-        }
-
         try {
-            const imageUrl = await uploadImage(file);
-            return imageUrl;
+            const result = await uploadImageWithValidation(file, {
+                maxWidth: 400,
+                maxHeight: 400,
+                quality: 85,
+                maxSizeMB: 2
+            });
+            return result.url;
         } catch (error) {
             console.error('Error al subir avatar:', error);
-            throw new Error('No se pudo subir el avatar. Intenta nuevamente.');
+            throw new Error(error.message || 'No se pudo subir el avatar. Intenta nuevamente.');
         }
     }
 

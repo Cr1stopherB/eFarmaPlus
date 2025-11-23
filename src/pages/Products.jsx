@@ -1,9 +1,9 @@
 // pages/Products.jsx
-// Página de productos con filtros y búsqueda conectada a API real
+// Página de productos con filtros dinámicos de categorías desde la API
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/atoms/ProductCard';
-import { getAllProducts } from '../services/productService';
+import { getAllProducts, getCategories } from '../services/productService';
 import { useCart } from '../context/CartContext';
 import '../styles/pages/Products.css';
 
@@ -11,6 +11,7 @@ const Products = () => {
     const [searchParams] = useSearchParams();
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [categories, setCategories] = useState(['Todas']); // Empieza con "Todas"
     const [selectedCategory, setSelectedCategory] = useState('Todas');
     const [loading, setLoading] = useState(true);
     const { addToCart } = useCart();
@@ -18,8 +19,19 @@ const Products = () => {
     const categoryParam = searchParams.get('categoria');
     const searchTerm = searchParams.get('buscar') || '';
 
-    // Categorías disponibles
-    const categories = ['Todas', 'Medicamentos', 'Vitaminas', 'Cuidado Personal', 'Dermatología'];
+    // Cargar categorías desde la API
+    useEffect(() => {
+        const loadCategories = async () => {
+            try {
+                const categoriesData = await getCategories();
+                const categoryNames = ['Todas', ...categoriesData.map(cat => cat.name)];
+                setCategories(categoryNames);
+            } catch (error) {
+                console.error('Error al cargar categorías:', error);
+            }
+        };
+        loadCategories();
+    }, []);
 
     // Cargar categoría desde URL si existe
     useEffect(() => {
@@ -78,7 +90,6 @@ const Products = () => {
     return (
         <div className="products-page">
             <div className="products-container">
-                {/* Sidebar de filtros */}
                 <aside className="filters-sidebar">
                     <h3>Categorías</h3>
                     <div className="category-filters">
@@ -94,7 +105,6 @@ const Products = () => {
                     </div>
                 </aside>
 
-                {/* Grid de productos */}
                 <main className="products-main">
                     <div className="products-header">
                         <h1>

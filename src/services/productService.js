@@ -28,16 +28,64 @@ const mapProductFromBackend = (producto) => {
  * Mapear producto del frontend al formato del backend
  */
 const mapProductToBackend = (product) => {
+    const categoryId = Number(product.categoryId);
+    const laboratoryId = Number(product.laboratoryId);
+    const fabricationTypeId = Number(product.fabricationTypeId);
+
     return {
         nombre: product.name,
         descripcion: product.description || '',
         precio: Number(product.price),
         stock: Number(product.stock),
         requiereReceta: product.requiresPrescription || false,
-        categoria: product.categoryId ? { id: product.categoryId } : null,
-        laboratorio: product.laboratoryId ? { id: product.laboratoryId } : null,
-        tipoFabricacion: product.fabricationTypeId ? { id: product.fabricationTypeId } : null
+        categoria: (categoryId && !isNaN(categoryId)) ? { id: categoryId } : null,
+        laboratorio: (laboratoryId && !isNaN(laboratoryId)) ? { id: laboratoryId } : null,
+        // tipoFabricacion: (fabricationTypeId && !isNaN(fabricationTypeId)) ? { id: fabricationTypeId } : null,
+        imagenes: [] // Enviar array vacío para evitar NullPointerException en backend si espera la colección
     };
+};
+
+/**
+ * Asociar una imagen a un producto
+ */
+export const addImageToProduct = async (productId, imageUrl) => {
+    try {
+        const imageData = {
+            url: imageUrl,
+            producto: { id: productId }
+        };
+        await post('/imagenes', imageData);
+        return true;
+    } catch (error) {
+        console.error('Error al asociar imagen al producto:', error);
+        // No lanzamos error para no interrumpir el flujo principal si falla la imagen
+        return false;
+    }
+};
+
+/**
+ * Obtener todos los productos
+ */
+export const getAllProducts = async () => {
+    try {
+        const productos = await get('/productos');
+
+        if (!Array.isArray(productos)) {
+            console.error('La respuesta no es un array:', productos);
+            return [];
+        }
+
+        return productos.map(mapProductFromBackend);
+    } catch (error) {
+        console.error('Error al obtener productos:', error);
+        return [];
+    }
+};
+
+/**
+ * Obtener producto por ID
+ */
+export const getProductById = async (id) => {
     try {
         const producto = await get(`/productos/${id}`);
         return mapProductFromBackend(producto);
@@ -92,11 +140,21 @@ export const searchProducts = async (searchTerm) => {
 
 /**
  * Crear nuevo producto
+ * @param {Object} productData - Datos del producto
+ * @param {String} imageUrl - URL de la imagen (opcional)
  */
-export const createProduct = async (productData) => {
+export const createProduct = async (productData, imageUrl = null) => {
     try {
         const backendProduct = mapProductToBackend(productData);
         const newProduct = await post('/productos', backendProduct);
+
+        // Si hay URL de imagen, asociarla
+        if (imageUrl) {
+            await addImageToProduct(newProduct.id, imageUrl);
+            // Actualizar el objeto retornado con la imagen para que se vea inmediatamente en la UI
+            newProduct.imagenes = [{ url: imageUrl }];
+        }
+
         return mapProductFromBackend(newProduct);
     } catch (error) {
         console.error('Error al crear producto:', error);
@@ -106,11 +164,28 @@ export const createProduct = async (productData) => {
 
 /**
  * Actualizar producto existente
+ * @param {Number} id - ID del producto
+ * @param {Object} productData - Datos del producto
+ * @param {String} imageUrl - URL de la imagen (opcional)
  */
-export const updateProduct = async (id, productData) => {
+export const updateProduct = async (id, productData, imageUrl = null) => {
     try {
         const backendProduct = mapProductToBackend(productData);
+
+        console.log('=== UPDATE PRODUCT ===');
+        console.log('ID:', id);
+        console.log('Objeto a enviar al backend:', JSON.stringify(backendProduct, null, 2));
+        console.log('URL de imagen:', imageUrl);
+
         const updatedProduct = await put(`/productos/${id}`, backendProduct);
+
+        // Si hay URL de imagen, asociarla (esto agregará una nueva imagen)
+        // Idealmente deberíamos borrar las anteriores o actualizarlas, pero por simplicidad agregamos
+        if (imageUrl) {
+            await addImageToProduct(id, imageUrl);
+            updatedProduct.imagenes = [{ url: imageUrl }];
+        }
+
         return mapProductFromBackend(updatedProduct);
     } catch (error) {
         console.error(`Error al actualizar producto ${id}:`, error);
@@ -188,5 +263,6 @@ export default {
     deleteProduct,
     getCategories,
     getLaboratories,
-    getFeaturedProducts
+    getFeaturedProducts,
+    addImageToProduct
 };
