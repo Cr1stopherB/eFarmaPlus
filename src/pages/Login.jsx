@@ -1,9 +1,8 @@
-// pages/Login.jsx
-// Página de inicio de sesión con autenticación
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/atoms/Button';
+import { FaPrescriptionBottleAlt } from 'react-icons/fa';
 import '../styles/pages/Auth.css';
 
 const Login = () => {
@@ -44,7 +43,6 @@ const Login = () => {
             newErrors.email = 'Email inválido. Use el formato correo@gmail.com';
         }
 
-        // Validar contraseña
         if (!formData.password) {
             newErrors.password = 'La contraseña es requerida';
         } else if (formData.password.length < 6) {
@@ -55,7 +53,7 @@ const Login = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    // Manejar envío del formulario
+    // Envío del formulario
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -66,17 +64,14 @@ const Login = () => {
             // Detectar si es admin basado en el email
             const rol = formData.email === 'admin@gmail.com' ? 'admin' : 'usuario';
 
-            // Crear objeto de usuario
             const userData = {
                 nombre: nombre,
                 email: formData.email,
                 rol: rol
             };
 
-            // Guardar en contexto
             login(userData);
 
-            // Navegar al home o admin con transición
             setTimeout(() => {
                 navigate(rol === 'admin' ? '/admin' : '/');
             }, 1000);
@@ -86,15 +81,12 @@ const Login = () => {
     return (
         <div className="auth-page">
             <div className="auth-container">
-                {/* Logo/Header */}
                 <div className="auth-header">
-                    <h1>💊 eFarma</h1>
+                    <h1><FaPrescriptionBottleAlt /> eFarma</h1>
                     <p>Inicia sesión en tu cuenta</p>
                 </div>
 
-                {/* Formulario */}
                 <form className="auth-form" onSubmit={handleSubmit}>
-                    {/* Email */}
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
                         <input
@@ -110,8 +102,6 @@ const Login = () => {
                             <span className="error-message">{errors.email}</span>
                         )}
                     </div>
-
-                    {/* Contraseña */}
                     <div className="form-group">
                         <label htmlFor="password">Contraseña</label>
                         <input
@@ -128,20 +118,17 @@ const Login = () => {
                         )}
                     </div>
 
-                    {/* Link de olvidé contraseña */}
                     <div className="form-links">
                         <Link to="/recuperar-password" className="link-secondary">
                             ¿Olvidaste tu contraseña?
                         </Link>
                     </div>
 
-                    {/* Botón de submit */}
                     <Button type="submit" fullWidth>
                         Iniciar Sesión
                     </Button>
                 </form>
 
-                {/* Link para registro */}
                 <div className="auth-footer">
                     <p>
                         ¿No tienes cuenta?{' '}

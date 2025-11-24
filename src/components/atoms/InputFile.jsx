@@ -1,25 +1,7 @@
-// components/atoms/InputFile.jsx
-// Input para subir archivos (imágenes)
 import React, { useRef } from 'react';
 import '../../styles/atoms/InputFile.css';
 
-/**
- * Componente Input para archivos
- * 
- * @param {Function} onChange - Callback con el archivo seleccionado
- * @param {String} accept - Tipos de archivo aceptados
- * @param {String} label - Etiqueta del input
- * @param {String} preview - URL de imagen para preview
- * @param {String} error - Mensaje de error
- * 
- * Ejemplo de uso:
- * <InputFile 
- *   onChange={(file) => handleFileChange(file)}
- *   accept="image/*"
- *   label="Imagen del producto"
- *   preview={imageUrl}
- * />
- */
+
 const InputFile = ({ onChange, accept = 'image/*', label, preview, error }) => {
     const inputRef = useRef(null);
 

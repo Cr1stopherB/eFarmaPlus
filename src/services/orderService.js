@@ -1,10 +1,5 @@
-// services/orderService.js
-// Servicio para gestión de ventas/pedidos conectado al backend real
 import { get, post, put, patch, del } from './api';
 
-/**
- * Mapear venta del backend al formato del frontend
- */
 const mapOrderFromBackend = (venta) => {
     return {
         id: venta.id,
@@ -20,13 +15,10 @@ const mapOrderFromBackend = (venta) => {
         metodoPago: venta.metodoPago?.nombre || 'No especificado',
         metodoEnvio: venta.metodoEnvio?.nombre || 'No especificado',
         direccionEnvio: venta.direccionEnvio || '',
-        productos: 0 // Tu backend no tiene detalle de productos en venta
+        productos: 0
     };
 };
 
-/**
- * Mapear pedido del frontend al formato del backend
- */
 const mapOrderToBackend = (order) => {
     return {
         usuario: order.usuarioId ? { id: order.usuarioId } : null,
@@ -38,9 +30,6 @@ const mapOrderToBackend = (order) => {
     };
 };
 
-/**
- * Obtener todas las ventas/pedidos
- */
 export const getAllOrders = async () => {
     try {
         const ventas = await get('/ventas');
@@ -51,9 +40,6 @@ export const getAllOrders = async () => {
     }
 };
 
-/**
- * Obtener venta por ID
- */
 export const getOrderById = async (id) => {
     try {
         const venta = await get(`/ventas/${id}`);
@@ -64,9 +50,6 @@ export const getOrderById = async (id) => {
     }
 };
 
-/**
- * Crear nueva venta
- */
 export const createOrder = async (orderData) => {
     try {
         const backendOrder = mapOrderToBackend(orderData);
@@ -78,9 +61,6 @@ export const createOrder = async (orderData) => {
     }
 };
 
-/**
- * Actualizar venta existente
- */
 export const updateOrder = async (id, orderData) => {
     try {
         const backendOrder = mapOrderToBackend(orderData);
@@ -92,9 +72,6 @@ export const updateOrder = async (id, orderData) => {
     }
 };
 
-/**
- * Actualizar solo el estado de una venta
- */
 export const updateOrderStatus = async (id, estadoId) => {
     try {
         const venta = await getOrderById(id);
@@ -109,9 +86,6 @@ export const updateOrderStatus = async (id, estadoId) => {
     }
 };
 
-/**
- * Eliminar venta
- */
 export const deleteOrder = async (id) => {
     try {
         await del(`/ventas/${id}`);
@@ -122,9 +96,6 @@ export const deleteOrder = async (id) => {
     }
 };
 
-/**
- * Obtener todos los estados disponibles
- */
 export const getEstados = async () => {
     try {
         const estados = await get('/estados');
@@ -143,9 +114,6 @@ export const getEstados = async () => {
     }
 };
 
-/**
- * Obtener todos los métodos de pago
- */
 export const getMetodosPago = async () => {
     try {
         const metodos = await get('/metodos-pago');
@@ -159,9 +127,6 @@ export const getMetodosPago = async () => {
     }
 };
 
-/**
- * Obtener todos los métodos de envío
- */
 export const getMetodosEnvio = async () => {
     try {
         const metodos = await get('/metodos-envio');

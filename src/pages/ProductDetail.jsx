@@ -1,5 +1,3 @@
-// pages/ProductDetail.jsx
-// Página de detalle de un producto individual
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Button from '../components/atoms/Button';
@@ -75,13 +73,11 @@ const ProductDetail = () => {
     return (
         <div className="product-detail">
             <div className="product-detail-container">
-                {/* Botón volver */}
                 <button className="back-button" onClick={() => navigate(-1)}>
                     ← Volver
                 </button>
 
                 <div className="product-detail-content">
-                    {/* Imagen del producto */}
                     <div className="product-detail-image">
                         <img src={product.image} alt={product.name} />
                         {product.discount > 0 && (
@@ -89,7 +85,6 @@ const ProductDetail = () => {
                         )}
                     </div>
 
-                    {/* Información del producto */}
                     <div className="product-detail-info">
                         <span className="product-category">{product.category}</span>
                         <h1 className="product-title">{product.name}</h1>
@@ -111,7 +106,6 @@ const ProductDetail = () => {
                             </span>
                         </div>
 
-                        {/* Selector de cantidad */}
                         <div className="quantity-selector">
                             <label>Cantidad:</label>
                             <div className="quantity-controls">
@@ -120,8 +114,6 @@ const ProductDetail = () => {
                                 <button onClick={increaseQuantity}>+</button>
                             </div>
                         </div>
-
-                        {/* Botones de acción */}
                         <div className="product-actions">
                             <Button
                                 variant="primary"

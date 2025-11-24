@@ -1,6 +1,3 @@
-/* styles/organisms/Header.css */
-/* Header estilo moderno centrado con fondo oscuro */
-
 .header {
   position: sticky;
   top: 0;
@@ -157,6 +154,17 @@
 
 .nav-link:hover {
   border-bottom-color: white;
+}
+
+/* Estilo especial para el link de admin */
+.nav-link-admin {
+  color: #febd69;
+  font-weight: 600;
+}
+
+.nav-link-admin:hover {
+  border-bottom-color: #febd69;
+  color: #f3a847;
 }
 
 /* Responsive */

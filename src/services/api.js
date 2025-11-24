@@ -1,12 +1,10 @@
-// services/api.js
-// Configuración base de Axios para llamadas al backend
 import axios from 'axios';
 
-// URL base del backend
+// URL backend
 const API_URL = import.meta.env.VITE_API_URL || 'https://efarmaplusback.onrender.com/api';
 const API_TIMEOUT = import.meta.env.VITE_API_TIMEOUT || 30000;
 
-// Crear instancia de axios configurada
+// Crear instancia de axios 
 const api = axios.create({
     baseURL: API_URL,
     timeout: API_TIMEOUT,
@@ -15,11 +13,9 @@ const api = axios.create({
     }
 });
 
-// Interceptor para requests (opcional: agregar headers adicionales)
 api.interceptors.request.use(
     (config) => {
-        // Aquí podrías agregar headers adicionales si es necesario
-        // Por ejemplo, un token de sesión si lo implementas en el futuro
+
         return config;
     },
     (error) => {
@@ -27,15 +23,13 @@ api.interceptors.request.use(
     }
 );
 
-// Interceptor para responses (manejo de errores global)
 api.interceptors.response.use(
     (response) => {
         return response;
     },
     (error) => {
-        // Manejo de errores globales
         if (error.response) {
-            // El servidor respondió con un código de error
+            // err
             console.error('Error de respuesta:', error.response.status, error.response.data);
 
             switch (error.response.status) {
@@ -60,11 +54,6 @@ api.interceptors.response.use(
     }
 );
 
-/**
- * Funciones helper para peticiones HTTP
- */
-
-// GET - Obtener datos
 export const get = async (url, config = {}) => {
     try {
         const response = await api.get(url, config);

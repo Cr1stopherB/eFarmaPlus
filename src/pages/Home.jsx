@@ -1,10 +1,9 @@
-// pages/Home.jsx
-// Página de inicio con productos destacados
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getAllProducts } from '../services/productService';
+import { FaPrescriptionBottleAlt } from 'react-icons/fa';
 import ProductCard from '../components/atoms/ProductCard';
 import Button from '../components/atoms/Button';
-import { getAllProducts } from '../services/productService';
 import { useCart } from '../context/CartContext';
 import '../styles/pages/Home.css';
 
@@ -32,7 +31,6 @@ const Home = () => {
     // Manejar agregar al carrito
     const handleAddToCart = (product) => {
         addToCart(product);
-        // Puedes agregar una notificación aquí
     };
 
     // Productos destacados (primeros 6)
@@ -49,9 +47,6 @@ const Home = () => {
                 <div className="hero-content">
                     <h1>Bienvenido a eFarmaPlus</h1>
                     <p>Tu farmacia online de confianza. Productos de calidad para tu salud y bienestar.</p>
-                    <Button variant="primary" onClick={() => navigate('/productos')}>
-                        Ver Productos
-                    </Button>
                 </div>
             </section>
 
@@ -60,21 +55,20 @@ const Home = () => {
                 <h2>Categorías</h2>
                 <div className="category-grid">
                     <div className="category-card" onClick={() => navigate('/productos?categoria=Medicamentos')}>
-                        <span className="category-icon">💊</span>
+                        <span className="category-icon"><FaPrescriptionBottleAlt /></span>
                         <h3>Medicamentos</h3>
                     </div>
                     <div className="category-card" onClick={() => navigate('/productos?categoria=Cuidado Personal')}>
-                        <span className="category-icon">🧴</span>
+                        <span className="category-icon"><FaPrescriptionBottleAlt /></span>
                         <h3>Cuidado Personal</h3>
                     </div>
                     <div className="category-card" onClick={() => navigate('/productos?categoria=Dermatología')}>
-                        <span className="category-icon">✨</span>
+                        <span className="category-icon"><FaPrescriptionBottleAlt /></span>
                         <h3>Dermatología</h3>
                     </div>
                 </div>
             </section>
 
-            {/* Productos destacados */}
             <section className="featured">
                 <h2>Productos Destacados</h2>
                 <div className="product-grid">

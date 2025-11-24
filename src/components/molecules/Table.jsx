@@ -1,27 +1,7 @@
-// components/molecules/Table.jsx
-// Componente de tabla dinámica reutilizable
 import React from 'react';
 import '../../styles/molecules/Table.css';
 
-/**
- * Componente de tabla dinámica
- * 
- * @param {Array} columns - Array de nombres de columnas
- * @param {Array} data - Array de arrays con los datos
- * @param {Function} onRowClick - Función callback al hacer click en una fila
- * @param {Object} actions - Objeto con acciones para cada fila
- * 
- * Ejemplo de uso:
- * <Table 
- *   columns={["ID", "Nombre", "Edad"]}
- *   data={[[1, "Juan", 28], [2, "Ana", 34]]}
- *   onRowClick={(row) => console.log(row)}
- *   actions={{
- *     edit: (row) => handleEdit(row),
- *     delete: (row) => handleDelete(row)
- *   }}
- * />
- */
+
 const Table = ({ columns, data, onRowClick, actions }) => {
     if (!data || data.length === 0) {
         return (

@@ -1,12 +1,10 @@
-// components/atoms/Button.jsx
-// Componente de botón reutilizable para toda la aplicación
 import React from 'react';
 import '../../styles/atoms/Button.css';
 
 const Button = ({
     children,
     onClick,
-    variant = 'primary', // primary, secondary, outline
+    variant = 'primary',
     type = 'button',
     disabled = false,
     fullWidth = false

@@ -1,5 +1,3 @@
-// pages/Products.jsx
-// Página de productos con filtros dinámicos de categorías desde la API
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/atoms/ProductCard';
@@ -33,7 +31,6 @@ const Products = () => {
         loadCategories();
     }, []);
 
-    // Cargar categoría desde URL si existe
     useEffect(() => {
         if (categoryParam) {
             setSelectedCategory(categoryParam);
@@ -56,7 +53,6 @@ const Products = () => {
         loadProducts();
     }, []);
 
-    // Filtrar productos por categoría y búsqueda
     useEffect(() => {
         let filtered = products;
 

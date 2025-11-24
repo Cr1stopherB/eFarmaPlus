@@ -2,6 +2,7 @@
 // Panel principal de administración con estadísticas reales
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaBox, FaUsers, FaClipboardList, FaDollarSign, FaHome } from 'react-icons/fa';
 import productService from '../../services/productService';
 import userService from '../../services/userService';
 import orderService from '../../services/orderService';
@@ -49,28 +50,28 @@ const Dashboard = () => {
         {
             title: 'Productos',
             value: stats.totalProducts,
-            icon: '📦',
+            icon: <FaBox />,
             color: '#10b981',
             link: '/admin/productos'
         },
         {
             title: 'Usuarios',
             value: stats.totalUsers,
-            icon: '👥',
+            icon: <FaUsers />,
             color: '#3b82f6',
             link: '/admin/usuarios'
         },
         {
             title: 'Pedidos',
             value: stats.totalOrders,
-            icon: '📋',
+            icon: <FaClipboardList />,
             color: '#f59e0b',
             link: '/admin/pedidos'
         },
         {
             title: 'Ingresos',
             value: `$${stats.revenue.toLocaleString()}`,
-            icon: '💰',
+            icon: <FaDollarSign />,
             color: '#8b5cf6',
             link: null
         }
@@ -93,7 +94,7 @@ const Dashboard = () => {
         <div className="admin-page">
             <div className="admin-header">
                 <h1>Panel de Administración</h1>
-                <p>Bienvenido al panel de control de eFarma</p>
+                <p> | Bienvenido al panel de control de eFarma</p>
             </div>
 
             <div className="stats-grid">
@@ -122,28 +123,28 @@ const Dashboard = () => {
                         className="action-btn"
                         onClick={() => navigate('/admin/productos')}
                     >
-                        <span>📦</span>
+                        <span><FaBox /></span>
                         <span>Gestionar Productos</span>
                     </button>
                     <button
                         className="action-btn"
                         onClick={() => navigate('/admin/usuarios')}
                     >
-                        <span>👥</span>
+                        <span><FaUsers /></span>
                         <span>Gestionar Usuarios</span>
                     </button>
                     <button
                         className="action-btn"
                         onClick={() => navigate('/admin/pedidos')}
                     >
-                        <span>📋</span>
+                        <span><FaClipboardList /></span>
                         <span>Ver Pedidos</span>
                     </button>
                     <button
                         className="action-btn"
                         onClick={() => navigate('/')}
                     >
-                        <span>🏠</span>
+                        <span><FaHome /></span>
                         <span>Volver a la Tienda</span>
                     </button>
                 </div>

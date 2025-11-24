@@ -1,26 +1,8 @@
-// components/molecules/DynamicForm.jsx
-// Formulario dinámico generado a partir de configuración
 import React, { useState } from 'react';
 import Button from '../atoms/Button';
 import InputFile from '../atoms/InputFile';
 
-/**
- * Componente de formulario dinámico
- * 
- * @param {Array} fields - Configuración de campos del formulario
- * @param {Object} initialValues - Valores iniciales (para editar)
- * @param {Function} onSubmit - Callback al enviar formulario
- * @param {Function} onCancel - Callback al cancelar
- * @param {String} submitText - Texto del botón submit
- * 
- * Configuración de fields:
- * [
- *   { name: 'nombre', label: 'Nombre', type: 'text', required: true },
- *   { name: 'precio', label: 'Precio', type: 'number', min: 0 },
- *   { name: 'descripcion', label: 'Descripción', type: 'textarea' },
- *   { name: 'imagen', label: 'Imagen', type: 'file', accept: 'image/*' }
- * ]
- */
+
 const DynamicForm = ({
     fields,
     initialValues = {},

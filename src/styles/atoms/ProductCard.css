@@ -1,6 +1,3 @@
-/* styles/atoms/ProductCard.css */
-/* Tarjeta de producto estilo e-commerce moderno */
-
 .product-card {
     background: var(--white);
     border-radius: 8px;
@@ -19,7 +16,6 @@
     transform: translateY(-2px);
 }
 
-/* Badge de descuento - Esquina superior derecha */
 .discount-badge {
     position: absolute;
     top: 12px;
@@ -35,7 +31,6 @@
     text-align: center;
 }
 
-/* Imagen del producto */
 .product-image {
     width: 100%;
     height: 200px;
@@ -58,7 +53,6 @@
     transform: scale(1.05);
 }
 
-/* Información del producto */
 .product-info {
     padding: 12px;
     display: flex;
@@ -67,7 +61,6 @@
     gap: 6px;
 }
 
-/* Categoría/Marca */
 .product-category {
     font-size: 0.7rem;
     font-weight: 700;
@@ -76,7 +69,6 @@
     letter-spacing: 0.3px;
 }
 
-/* Nombre del producto */
 .product-name {
     font-size: 0.8rem;
     font-weight: 400;
@@ -90,7 +82,6 @@
     overflow: hidden;
 }
 
-/* Precios */
 .product-pricing {
     display: flex;
     flex-direction: column;
@@ -125,7 +116,6 @@
     line-height: 1;
 }
 
-/* Botón dentro de la tarjeta */
 .product-card .btn {
     margin-top: auto;
     padding: 8px 14px;
@@ -133,7 +123,6 @@
     font-weight: 600;
 }
 
-/* Ajustes responsive */
 @media (max-width: 768px) {
     .product-image {
         height: 170px;

@@ -1,10 +1,9 @@
-// pages/Cart.jsx
-// Página del carrito de compras
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from '../components/atoms/Button';
 import { useCart } from '../context/CartContext';
+import Button from '../components/atoms/Button';
 import { useAuth } from '../context/AuthContext';
+import { FaShoppingCart } from 'react-icons/fa';
 import '../styles/pages/Cart.css';
 
 const Cart = () => {
@@ -12,7 +11,7 @@ const Cart = () => {
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
-    // Manejar disminución de cantidad
+    // disminución de cantidad
     const handleDecrease = (id, currentQuantity) => {
         if (currentQuantity > 1) {
             updateQuantity(id, currentQuantity - 1);
@@ -25,16 +24,26 @@ const Cart = () => {
         }
     };
 
-    // Manejar finalizar compra
-    const handleCheckout = () => {
+    const handleCheckout = async () => {
         if (!isAuthenticated()) {
             // Redirigir a login si no está autenticado
+            alert('Por favor inicia sesión para continuar con la compra');
             setTimeout(() => {
                 navigate('/login');
-            }, 1000);
+            }, 500);
         } else {
-            // Proceder con el pago (aquí conectarías con pasarela de pago)
-            alert('Procediendo con el pago... (Funcionalidad por implementar)');
+            // Simular proceso de pago
+            alert('Procediendo al pago...');
+
+            setTimeout(() => {
+                alert('¡Compra realizada con éxito! 🎉\n\nTu pedido será enviado pronto.');
+
+                clearCart();
+
+                setTimeout(() => {
+                    navigate('/');
+                }, 500);
+            }, 1500);
         }
     };
 
@@ -43,7 +52,7 @@ const Cart = () => {
         return (
             <div className="cart-empty">
                 <div className="cart-empty-content">
-                    <span className="cart-empty-icon">🛒</span>
+                    <span className="cart-empty-icon"><FaShoppingCart /></span>
                     <h2>Tu carrito está vacío</h2>
                     <p>Agrega productos para comenzar tu compra</p>
                     <Button variant="primary" onClick={() => navigate('/productos')}>

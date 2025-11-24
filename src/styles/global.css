@@ -1,14 +1,8 @@
-/* styles/global.css */
-/* Estilos globales para eFarmaPlus */
-
-/* Variables CSS - Colores de la farmacia */
 :root {
-    /* Colores principales */
     --primary-green: #059669;
     --primary-green-dark: #047857;
     --primary-green-light: #10b981;
 
-    /* Colores secundarios */
     --secondary-blue: #0284c7;
     --secondary-blue-dark: #0369a1;
 
@@ -22,38 +16,32 @@
     --gray-800: #1f2937;
     --gray-900: #111827;
 
-    /* Colores de estado */
     --success: #10b981;
     --warning: #f59e0b;
     --error: #ef4444;
     --info: #3b82f6;
 
-    /* Espaciado */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
     --spacing-lg: 1.5rem;
     --spacing-xl: 2rem;
 
-    /* Bordes */
     --radius-sm: 0.25rem;
     --radius-md: 0.5rem;
     --radius-lg: 0.75rem;
 
-    /* Sombras */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-/* Reset básico */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Tipografía base */
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
         'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -65,7 +53,6 @@ body {
     line-height: 1.6;
 }
 
-/* Links */
 a {
     color: var(--primary-green);
     text-decoration: none;
@@ -76,7 +63,6 @@ a:hover {
     color: var(--primary-green-dark);
 }
 
-/* Botones base */
 button {
     font-family: inherit;
     cursor: pointer;
@@ -85,14 +71,12 @@ button {
     transition: all 0.2s ease;
 }
 
-/* Imágenes responsivas */
 img {
     max-width: 100%;
     height: auto;
     display: block;
 }
 
-/* Contenedor principal */
 #root {
     min-height: 100vh;
     display: flex;

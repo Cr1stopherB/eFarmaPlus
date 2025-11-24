@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../../components/molecules/Table';
 import Modal from '../../components/molecules/Modal';
-import Button from '../../components/atoms/Button';
 import orderService from '../../services/orderService';
 import '../../styles/pages/Admin.css';
 

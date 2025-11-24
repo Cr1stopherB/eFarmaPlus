@@ -1,5 +1,3 @@
-// pages/admin/UsersAdmin.jsx
-// Gestión de usuarios conectado a API real
 import React, { useState, useEffect } from 'react';
 import Table from '../../components/molecules/Table';
 import Modal from '../../components/molecules/Modal';

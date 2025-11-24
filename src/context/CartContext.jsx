@@ -16,10 +16,10 @@ export const useCart = () => {
 
 // Provider del carrito
 export const CartProvider = ({ children }) => {
-    // Estado del carrito - array de productos con cantidad
+    // Estado del carrito
     const [cartItems, setCartItems] = useState([]);
 
-    // Cargar carrito desde localStorage al iniciar
+    // carrito desde localStorage
     useEffect(() => {
         const savedCart = localStorage.getItem('efarmaplus-cart');
         if (savedCart) {
@@ -46,18 +46,17 @@ export const CartProvider = ({ children }) => {
                         : item
                 );
             } else {
-                // Si no existe, agregarlo con cantidad 1
                 return [...prevItems, { ...product, quantity: 1 }];
             }
         });
     };
 
-    // Eliminar producto del carrito
+    // Eliminar producto
     const removeFromCart = (productId) => {
         setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
     };
 
-    // Actualizar cantidad de un producto
+    // Actualizar cantidad
     const updateQuantity = (productId, newQuantity) => {
         if (newQuantity <= 0) {
             removeFromCart(productId);
@@ -86,7 +85,6 @@ export const CartProvider = ({ children }) => {
     // Calcular el precio total
     const getTotalPrice = () => {
         return cartItems.reduce((total, item) => {
-            // Si tiene descuento, usar precio con descuento
             const price = item.discount
                 ? item.price * (1 - item.discount / 100)
                 : item.price;
@@ -94,7 +92,6 @@ export const CartProvider = ({ children }) => {
         }, 0);
     };
 
-    // Valores y funciones que se compartirán
     const value = {
         cartItems,
         addToCart,

@@ -1,11 +1,7 @@
-/* styles/pages/Home.css */
-/* Estilos para la página de inicio */
-
 .home {
     flex: 1;
 }
 
-/* Hero/Banner principal */
 .hero {
     background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
     color: var(--white);
@@ -29,7 +25,6 @@
     opacity: 0.95;
 }
 
-/* Sección de categorías */
 .categories {
     padding: 3rem 2rem;
     max-width: 1200px;
@@ -74,7 +69,6 @@
     font-size: 1.2rem;
 }
 
-/* Sección de productos destacados */
 .featured {
     padding: 3rem 2rem;
     background: var(--gray-100);
@@ -100,7 +94,6 @@
     margin-top: 2rem;
 }
 
-/* Loading */
 .loading {
     text-align: center;
     padding: 4rem 2rem;

@@ -13,15 +13,10 @@ import './App.css';
 function App() {
   return (
     <Router>
-      {/* AuthProvider provee el contexto de autenticación */}
       <AuthProvider>
-        {/* CartProvider provee el contexto del carrito a toda la app */}
         <CartProvider>
           <div className="App">
-            {/* Header aparece en todas las páginas */}
             <Header />
-
-            {/* Rutas PUBLIC dinámicas + ADMIN protegidas */}
             <Routes>
               {/* Rutas públicas */}
               {publicRoutes.map(({ path, element: Element }) => (
@@ -41,8 +36,6 @@ function App() {
                 />
               ))}
             </Routes>
-
-            {/* Footer aparece en todas las páginas */}
             <Footer />
           </div>
         </CartProvider>

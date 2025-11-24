@@ -1,9 +1,8 @@
-// pages/Register.jsx
-// Página de registro de nuevos usuarios
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/atoms/Button';
+import { FaPrescriptionBottleAlt } from 'react-icons/fa';
 import '../styles/pages/Auth.css';
 
 const Register = () => {
@@ -17,14 +16,14 @@ const Register = () => {
     });
     const [errors, setErrors] = useState({});
 
-    // Manejar cambios en los inputs
+    // Cambios en los inputs
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
             [name]: value
         }));
-        // Limpiar error del campo al escribir
+        // Limpiar del campo 
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,
@@ -33,7 +32,6 @@ const Register = () => {
         }
     };
 
-    // Validar formulario
     const validateForm = () => {
         const newErrors = {};
 
@@ -44,7 +42,7 @@ const Register = () => {
             newErrors.nombre = 'El nombre debe tener al menos 3 caracteres';
         }
 
-        // Validar email - SOLO @gmail.com
+        // SOLO @gmail.com
         if (!formData.email) {
             newErrors.email = 'El email es requerido';
         } else if (!formData.email.endsWith('@gmail.com')) {
@@ -53,14 +51,12 @@ const Register = () => {
             newErrors.email = 'Email inválido. Use el formato correo@gmail.com';
         }
 
-        // Validar contraseña
         if (!formData.password) {
             newErrors.password = 'La contraseña es requerida';
         } else if (formData.password.length < 6) {
             newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
         }
 
-        // Validar confirmación de contraseña
         if (!formData.confirmPassword) {
             newErrors.confirmPassword = 'Confirma tu contraseña';
         } else if (formData.password !== formData.confirmPassword) {
@@ -71,12 +67,11 @@ const Register = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    // Manejar envío del formulario
+    // Manejo del envío del formulario
     const handleSubmit = (e) => {
         e.preventDefault();
 
         if (validateForm()) {
-            // Crear objeto de usuario
             const userData = {
                 nombre: formData.nombre,
                 email: formData.email
@@ -85,7 +80,7 @@ const Register = () => {
             // Guardar en contexto
             register(userData);
 
-            // Redirigir al home con transición
+            // Redireccion al home
             setTimeout(() => {
                 navigate('/');
             }, 1000);
@@ -95,15 +90,12 @@ const Register = () => {
     return (
         <div className="auth-page">
             <div className="auth-container">
-                {/* Logo/Header */}
                 <div className="auth-header">
-                    <h1>💊 eFarma</h1>
+                    <h1><FaPrescriptionBottleAlt /> eFarma</h1>
                     <p>Crea tu cuenta</p>
                 </div>
 
-                {/* Formulario */}
                 <form className="auth-form" onSubmit={handleSubmit}>
-                    {/* Nombre */}
                     <div className="form-group">
                         <label htmlFor="nombre">Nombre completo</label>
                         <input
@@ -113,14 +105,13 @@ const Register = () => {
                             value={formData.nombre}
                             onChange={handleChange}
                             className={errors.nombre ? 'error' : ''}
-                            placeholder="Juan Pérez"
+                            placeholder="Carlos vera"
                         />
                         {errors.nombre && (
                             <span className="error-message">{errors.nombre}</span>
                         )}
                     </div>
 
-                    {/* Email */}
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
                         <input
@@ -137,7 +128,6 @@ const Register = () => {
                         )}
                     </div>
 
-                    {/* Contraseña */}
                     <div className="form-group">
                         <label htmlFor="password">Contraseña</label>
                         <input
@@ -154,7 +144,6 @@ const Register = () => {
                         )}
                     </div>
 
-                    {/* Confirmar Contraseña */}
                     <div className="form-group">
                         <label htmlFor="confirmPassword">Confirmar contraseña</label>
                         <input
@@ -171,13 +160,11 @@ const Register = () => {
                         )}
                     </div>
 
-                    {/* Botón de submit */}
                     <Button type="submit" fullWidth>
                         Crear Cuenta
                     </Button>
                 </form>
 
-                {/* Link para login */}
                 <div className="auth-footer">
                     <p>
                         ¿Ya tienes cuenta?{' '}

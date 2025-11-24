@@ -1,27 +1,6 @@
-// components/molecules/Modal.jsx
-// Modal reutilizable con animaciones
 import React, { useEffect } from 'react';
 import '../../styles/molecules/Modal.css';
 
-/**
- * Componente Modal reutilizable
- * 
- * @param {Boolean} isOpen - Controla si el modal está abierto
- * @param {Function} onClose - Función para cerrar el modal
- * @param {String} title - Título del modal
- * @param {ReactNode} children - Contenido del modal
- * @param {String} size - Tamaño del modal (small, medium, large)
- * 
- * Ejemplo de uso:
- * <Modal 
- *   isOpen={isOpen}
- *   onClose={() => setIsOpen(false)}
- *   title="Crear Producto"
- *   size="large"
- * >
- *   <FormularioProducto />
- * </Modal>
- */
 const Modal = ({ isOpen, onClose, title, children, size = 'medium' }) => {
     // Cerrar modal con ESC
     useEffect(() => {

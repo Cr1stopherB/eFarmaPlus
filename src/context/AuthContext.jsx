@@ -1,5 +1,3 @@
-// context/AuthContext.jsx
-// Contexto para manejar autenticación de usuarios
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Crear contexto
@@ -16,11 +14,9 @@ export const useAuth = () => {
 
 // Provider del contexto
 export const AuthProvider = ({ children }) => {
-    // Estado del usuario autenticado
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Cargar usuario desde localStorage al iniciar
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
@@ -34,12 +30,10 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
     }, []);
 
-    // Función para iniciar sesión
     const login = (userData) => {
-        // Agregar rol por defecto si no existe
         const userWithRole = {
             ...userData,
-            rol: userData.rol || 'usuario' // Por defecto es usuario
+            rol: userData.rol || 'usuario'
         };
         setUser(userWithRole);
         localStorage.setItem('user', JSON.stringify(userWithRole));

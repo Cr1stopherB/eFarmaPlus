@@ -1,4 +1,3 @@
-// components/molecules/UserActions.jsx
 import React from 'react';
 import '../../styles/molecules/UserActions.css';
 
