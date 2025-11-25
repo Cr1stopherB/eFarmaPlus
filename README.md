@@ -1,164 +1,187 @@
-# eFarmaPlus - E-commerce Farmacéutico 💊
+# Manual de Usuario - eFarmaPlus 💊
 
-E-commerce moderno de productos farmacéuticos desarrollado con React + Vite. Diseño simple, limpio y profesional.
-
-![Status](https://img.shields.io/badge/status-activo-brightgreen)
-![React](https://img.shields.io/badge/react-19.1.1-blue)
-![Vite](https://img.shields.io/badge/vite-7.1.7-purple)
-
-## ✨ Características
-
-- 🏠 Página de inicio con productos destacados
-- 📦 Catálogo completo de productos con filtros por categoría
-- 🔍 Vista detallada de cada producto
-- 🛒 Carrito de compras funcional con persistencia local
-- 📱 Diseño responsive (mobile, tablet, desktop)
-- 🎨 Interfaz limpia y profesional con colores de farmacia
-- 🚀 Preparado para conectar con backend
-
-## 🚀 Instalación y Uso
-
-### Requisitos Previos
-- Node.js (versión 16 o superior)
-- npm o yarn
-
-### Instalación
-
-```bash
-# Clonar el repositorio (si aplica)
-git clone https://github.com/tu-usuario/eFarmaPlus.git
-
-# Entrar al directorio
-cd eFarmaPlus
-
-# Instalar dependencias
-npm install
-```
-
-### Ejecutar en Desarrollo
-
-```bash
-npm run dev
-```
-
-La aplicación se abrirá en `http://localhost:5173/`
-
-### Construir para Producción
-
-```bash
-npm run build
-```
-
-Los archivos optimizados se generarán en la carpeta `dist/`
-
-## 📂 Estructura del Proyecto
-
-```
-src/
-├── components/      # Componentes organizados con Atomic Design
-│   ├── atoms/       # Componentes básicos (botones, logo, etc.)
-│   ├── molecules/   # Combinación de atoms
-│   ├── organisms/   # Componentes complejos (header)
-│   └── templates/   # Plantillas (vacío por ahora)
-├── context/         # Estado global (CartContext)
-├── data/            # Datos mock de productos
-├── pages/           # Páginas de la aplicación
-├── services/        # Servicios para backend
-└── styles/          # Estilos CSS organizados
-```
-
-📖 **Para más detalles sobre la estructura, ver [ESTRUCTURA.md](./ESTRUCTURA.md)**
-
-## 🎯 Funcionalidades Implementadas
-
-### ✅ Completadas
-- [x] Header con navegación
-- [x] Página de inicio (Home)
-- [x] Catálogo de productos (Products)
-- [x] Detalle de producto (ProductDetail)
-- [x] Carrito de compras (Cart)
-- [x] Gestión de estado del carrito (Context API)
-- [x] Datos mock de productos farmacéuticos
-- [x] Sistema de rutas con React Router
-- [x] Diseño responsive
-- [x] Servicios preparados para backend
-
-### 🔜 Pendientes (Futuras Iteraciones)
-- [ ] Página de login/registro
-- [ ] Sistema de búsqueda
-- [ ] Conexión con backend real
-- [ ] Sistema de pagos
-- [ ] Historial de pedidos
-
-## 🔗 Conexión con Backend
-
-El proyecto está preparado para conectarse con un backend. Actualmente usa datos mock.
-
-### Para conectar con tu backend:
-
-1. **Configura la URL en** `src/services/api.js`:
-   ```javascript
-   const API_BASE_URL = 'http://tu-backend.com/api';
-   ```
-
-2. **En** `src/services/productService.js`, comenta las líneas de "VERSIÓN MOCK" y descomenta las de "VERSIÓN BACKEND"
-
-3. **Asegúrate de que tu backend retorne productos con esta estructura**:
-   ```javascript
-   {
-     id: number,
-     name: string,
-     category: string,
-     price: number,
-     image: string,
-     description: string,
-     stock: number,
-     discount: number
-   }
-   ```
-
-📖 **Ver [ESTRUCTURA.md](./ESTRUCTURA.md) para más detalles sobre la integración**
-
-## 🎨 Stack Tecnológico
-
-- **React 19** - Biblioteca de UI
-- **Vite 7** - Herramienta de build moderna y rápida
-- **React Router v7** - Navegación entre páginas
-- **Context API** - Gestión de estado
-- **CSS Vanilla** - Estilos sin frameworks CSS
-- **Bootstrap 5** (instalado, no usado actualmente)
-
-## 📱 Capturas de Pantalla
-
-*(Puedes agregar capturas aquí cuando ejecutes la aplicación)*
-
-## 🤝 Contribución
-
-Este es un proyecto educativo/personal. Si quieres contribuir:
-
-1. Haz fork del proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-## 📝 Notas de Desarrollo
-
-- **Código comentado en español**: Todo el código tiene comentarios explicativos
-- **Diseño simple**: Fácil de entender y modificar
-- **Preparado para escalar**: Estructura organizada con Atomic Design
-- **Variables CSS**: Todos los colores y espaciados centralizados
-
-## 📄 Licencia
-
-Este proyecto es de código abierto y está disponible bajo la licencia MIT.
-
-## 👨‍💻 Autor
-
-Desarrollado como proyecto de e-commerce farmacéutico
+## 📋 Índice
+1. [Navegación Básica](#navegación-básica)
+2. [Buscar Productos](#buscar-productos)
+3. [Realizar una Compra](#realizar-una-compra)
+4. [Crear Cuenta / Iniciar Sesión](#crear-cuenta--iniciar-sesión)
+5. [Panel de Administración](#panel-de-administración)
 
 ---
 
-**¿Tienes preguntas?** Revisa [ESTRUCTURA.md](./ESTRUCTURA.md) para una guía completa del proyecto.
+## Navegación Básica
 
-**Made with ❤️ using React + Vite**
+### Página Principal
+- **Logo eFarma:** Click para volver al inicio
+- **Barra de búsqueda:** Busca productos por nombre
+- **Usuario:** Muestra tu nombre si has iniciado sesión
+- **Carrito:** Icono con contador de productos agregados
+
+### Menú de Navegación
+- **Inicio:** Página principal
+- **Todos los Productos:** Catálogo completo
+- **Categorías:** Medicamentos, Vitaminas, Cuidado Personal, etc.
+
+---
+
+## Buscar Productos
+
+### Método 1: Barra de Búsqueda
+1. Click en la barra de búsqueda del header
+2. Escribe el nombre del producto
+3. Presiona Enter o click en el icono de búsqueda 🔍
+
+### Método 2: Por Categorías
+1. En la página principal, click en una categoría (Medicamentos, Cuidado Personal, etc.)
+2. O usa el menú superior para filtrar por categoría
+
+### Método 3: Ver Todos
+1. Click en "Todos los Productos" en el menú
+2. Navega por el catálogo completo
+
+---
+
+## Realizar una Compra
+
+### Paso 1: Agregar al Carrito
+1. Busca el producto que deseas
+2. Click en el producto para ver detalles
+3. Click en **"Agregar al Carrito"**
+4. Verás el contador del carrito aumentar
+
+### Paso 2: Revisar Carrito
+1. Click en el icono del carrito 🛒
+2. Revisa los productos agregados
+3. **Aumentar/Disminuir cantidad:** Usa los botones + y -
+4. **Eliminar producto:** Click en la X
+
+### Paso 3: Finalizar Compra
+1. Verifica el resumen (Subtotal + Envío)
+2. Click en **"Finalizar Compra"**
+3. Si no has iniciado sesión, te pedirá hacerlo
+4. Verás el mensaje: "Procediendo al pago..."
+5. Después de 1.5 segundos: "¡Compra realizada con éxito! 🎉"
+6. El carrito se vaciará automáticamente
+7. Serás redirigido a la página principal
+
+> **Nota:** Actualmente es una simulación. No se procesa pago real.
+
+---
+
+## Crear Cuenta / Iniciar Sesión
+
+### Crear Cuenta Nueva
+
+1. Click en **"Inicia sesión"** en el header
+2. Click en **"Regístrate aquí"**
+3. Completa el formulario:
+   - **Nombre completo:** Tu nombre
+   - **Email:** Debe ser @gmail.com
+   - **Contraseña:** Mínimo 6 caracteres
+   - **Confirmar contraseña:** Repite la contraseña
+4. Click en **"Crear Cuenta"**
+5. Automáticamente iniciarás sesión
+
+### Iniciar Sesión
+
+1. Click en **"Inicia sesión"** en el header
+2. Ingresa:
+   - **Email:** Tu correo @gmail.com
+   - **Contraseña:** Tu contraseña
+3. Click en **"Iniciar Sesión"**
+4. El header mostrará: "¡Hola, [tu nombre]!"
+
+### Cerrar Sesión
+
+1. Click en tu nombre en el header
+2. Aparecerá: "¿Deseas cerrar sesión?"
+3. Click en **Aceptar**
+
+---
+
+## Panel de Administración
+
+### Acceso (Solo Administradores)
+
+**Credenciales de Admin:**
+- **Email:** `admin@gmail.com`
+- **Contraseña:** Cualquiera de 6+ caracteres (ej: `123456`)
+
+### Cómo Ingresar
+
+1. Click en **"Inicia sesión"**
+2. Usa las credenciales de admin
+3. Verás aparecer **"👑 Panel Admin"** en el menú
+4. Click en ese link para acceder
+
+### Funcionalidades del Admin
+
+#### Dashboard
+- Vista general del sistema
+- Estadísticas de productos, pedidos e ingresos
+- Accesos rápidos a secciones
+
+#### Gestión de Productos
+- **Ver productos:** Lista completa
+- **Crear producto:** Formulario para agregar nuevo
+- **Editar producto:** Modificar existentes
+- **Eliminar producto:** Borrar del sistema
+- **Subir imagen:** Asociar imagen al producto
+
+#### Gestión de Usuarios
+- Ver lista de usuarios registrados
+- Ver roles (Admin / Usuario)
+- Datos de contacto
+
+#### Gestión de Pedidos
+- Ver todos los pedidos
+- Estados: Procesando, En camino, Entregado, Cancelado
+- Actualizar estado de pedidos
+
+---
+
+## 💡 Consejos Útiles
+
+### Para Usuarios
+- ✅ **Inicia sesión** antes de comprar para agilizar el proceso
+- ✅ **Revisa el carrito** antes de finalizar compra
+- ✅ Los envíos son **gratuitos**
+- ✅ Puedes **vaciar el carrito** completamente con un click
+
+### Para Administradores
+- ✅ **Siempre sube imágenes** al crear productos (mejor experiencia de usuario)
+- ✅ **Completa toda la información** del producto
+- ✅ **Actualiza estados de pedidos** regularmente
+- ✅ Los productos requieren **categoría** y **laboratorio** válidos
+
+---
+
+## ❓ Preguntas Frecuentes
+
+**¿Puedo comprar sin iniciar sesión?**
+No, necesitas iniciar sesión para finalizar la compra.
+
+**¿Solo acepta correos de Gmail?**
+Sí, actualmente solo @gmail.com.
+
+**¿Cómo contacto con soporte?**
+Revisa el footer para información de contacto.
+
+**¿Los pagos son reales?**
+No, es una simulación para demostración.
+
+**¿Puedo ser administrador?**
+Solo con las credenciales específicas: admin@gmail.com
+
+---
+
+## 📞 Soporte
+
+**Email:** info@efarma.com  
+**Teléfono:** +56 9 1234 5678  
+**Ubicación:** Santiago, Chile
+
+---
+
+**Versión del Manual:** 1.0  
+**Última actualización:** Noviembre 2025
