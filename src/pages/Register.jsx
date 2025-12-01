@@ -42,7 +42,6 @@ const Register = () => {
             newErrors.nombre = 'El nombre debe tener al menos 3 caracteres';
         }
 
-        // SOLO @gmail.com
         if (!formData.email) {
             newErrors.email = 'El email es requerido';
         } else if (!formData.email.endsWith('@gmail.com')) {
