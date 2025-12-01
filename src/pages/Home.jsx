@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllProducts } from '../services/productService';
+import productService from '../services/productService';
 import { FaPrescriptionBottleAlt } from 'react-icons/fa';
 import ProductCard from '../components/atoms/ProductCard';
 import Button from '../components/atoms/Button';
@@ -17,7 +17,7 @@ const Home = () => {
     useEffect(() => {
         const loadProducts = async () => {
             try {
-                const data = await getAllProducts();
+                const data = await productService.getAllProducts();
                 setProducts(data);
             } catch (error) {
                 console.error('Error al cargar productos:', error);

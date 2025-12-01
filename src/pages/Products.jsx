@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/atoms/ProductCard';
-import { getAllProducts, getCategories } from '../services/productService';
+import productService from '../services/productService';
 import { useCart } from '../context/CartContext';
 import '../styles/pages/Products.css';
 
@@ -21,7 +21,7 @@ const Products = () => {
     useEffect(() => {
         const loadCategories = async () => {
             try {
-                const categoriesData = await getCategories();
+                const categoriesData = await productService.getCategories();
                 const categoryNames = ['Todas', ...categoriesData.map(cat => cat.name)];
                 setCategories(categoryNames);
             } catch (error) {
@@ -42,7 +42,7 @@ const Products = () => {
         const loadProducts = async () => {
             setLoading(true);
             try {
-                const data = await getAllProducts();
+                const data = await productService.getAllProducts();
                 setProducts(data);
             } catch (error) {
                 console.error('Error al cargar productos:', error);

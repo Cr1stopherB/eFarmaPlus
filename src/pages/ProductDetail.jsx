@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Button from '../components/atoms/Button';
-import { getProductById } from '../services/productService';
+import productService from '../services/productService';
 import { useCart } from '../context/CartContext';
 import '../styles/pages/ProductDetail.css';
 
@@ -17,7 +17,7 @@ const ProductDetail = () => {
     useEffect(() => {
         const loadProduct = async () => {
             try {
-                const data = await getProductById(id);
+                const data = await productService.getProductById(id);
                 if (data) {
                     setProduct(data);
                 } else {

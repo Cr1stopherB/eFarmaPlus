@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
-import { getCategories } from '../../services/productService';
+import productService from '../../services/productService';
 import { FaSearch, FaShoppingCart, FaCrown, FaPrescriptionBottleAlt } from 'react-icons/fa';
 import '../../styles/organisms/Header.css';
 
@@ -17,7 +17,7 @@ const Header = () => {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const categoriesData = await getCategories();
+        const categoriesData = await productService.getCategories();
         setCategories(categoriesData.slice(0, 4));
       } catch (error) {
         console.error('Error al cargar categorías:', error);
