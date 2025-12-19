@@ -167,15 +167,17 @@ const ProductsAdmin = () => {
             console.log('URL de imagen (si existe):', imageUrl);
 
             if (editingProduct) {
-                // Editar producto existente - SOLO asociar imagen
-                console.log('Editando producto - solo asociar imagen');
+                // Editar producto existente
+                console.log('Editando producto...', editingProduct.id);
 
-                if (formData.image instanceof File && imageUrl) {
-                    await productService.addImageToProduct(editingProduct.id, imageUrl);
-                }
+                await productService.updateProduct(
+                    editingProduct.id,
+                    productData,
+                    imageUrl
+                );
 
                 await loadData();
-                alert('Imagen actualizada exitosamente');
+                alert('Producto actualizado exitosamente');
             } else {
                 // Crear nuevo producto
                 const newProduct = await productService.createProduct(

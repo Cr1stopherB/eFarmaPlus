@@ -67,22 +67,31 @@ const Register = () => {
     };
 
     // Manejo del envío del formulario
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (validateForm()) {
             const userData = {
                 nombre: formData.nombre,
-                email: formData.email
+                email: formData.email,
+                password: formData.password
             };
 
-            // Guardar en contexto
-            register(userData);
+            try {
+                // Guardar en contexto y backend
+                await register(userData);
 
-            // Redireccion al home
-            setTimeout(() => {
-                navigate('/');
-            }, 1000);
+                // Redireccion al home
+                setTimeout(() => {
+                    navigate('/');
+                }, 1000);
+            } catch (error) {
+                console.error("Error registration", error);
+                setErrors(prev => ({
+                    ...prev,
+                    general: 'Error al registrar usuario. Intente nuevamente.'
+                }));
+            }
         }
     };
 
@@ -94,6 +103,11 @@ const Register = () => {
                     <p>Crea tu cuenta</p>
                 </div>
 
+                {errors.general && (
+                    <div className="error-message" style={{ color: 'red', textAlign: 'center', marginBottom: '1rem' }}>
+                        {errors.general}
+                    </div>
+                )}
                 <form className="auth-form" onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="nombre">Nombre completo</label>

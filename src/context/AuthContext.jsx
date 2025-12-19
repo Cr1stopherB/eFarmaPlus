@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { post } from '../services/api';
 
 // Crear contexto
 const AuthContext = createContext();
@@ -46,14 +47,26 @@ export const AuthProvider = ({ children }) => {
     };
 
     // Función para registrar usuario
-    const register = (userData) => {
-        // Agregar rol por defecto
-        const userWithRole = {
-            ...userData,
-            rol: userData.rol || 'usuario'
-        };
-        setUser(userWithRole);
-        localStorage.setItem('user', JSON.stringify(userWithRole));
+    // Función para registrar usuario
+    const register = async (userData) => {
+        try {
+            // Enviar al backend
+            const response = await post('/usuarios', userData);
+
+            // Agregar rol por defecto si el backend no lo devuelve
+            const userWithRole = {
+                ...userData,
+                ...response, // Usar datos del backend si existen
+                rol: response?.rol || userData.rol || 'usuario'
+            };
+
+            setUser(userWithRole);
+            localStorage.setItem('user', JSON.stringify(userWithRole));
+            return userWithRole;
+        } catch (error) {
+            console.error('Error en registro:', error);
+            throw error;
+        }
     };
 
     // Verificar si el usuario está autenticado
