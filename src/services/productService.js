@@ -1,4 +1,5 @@
 import { get, post, put, del } from './api';
+import api from './api';
 
 const mapProductFromBackend = (producto) => {
     return {
@@ -13,6 +14,7 @@ const mapProductFromBackend = (producto) => {
         requiresPrescription: producto.requiereReceta || false,
         categoryId: producto.categoria?.id,
         laboratoryId: producto.laboratorio?.id,
+        fabricationTypeId: producto.tipoFabricacion?.id,
         fabricationType: producto.tipoFabricacion?.nombre || ''
     };
 };
@@ -22,14 +24,20 @@ const mapProductToBackend = (product) => {
     const laboratoryId = Number(product.laboratoryId);
     const fabricationTypeId = Number(product.fabricationTypeId);
 
+    // Validar IDs
+    const validCategory = (categoryId && !isNaN(categoryId));
+    const validLaboratory = (laboratoryId && !isNaN(laboratoryId));
+    const validFabricationType = (fabricationTypeId && !isNaN(fabricationTypeId));
+
     return {
         nombre: product.name,
         descripcion: product.description || '',
         precio: Number(product.price),
         stock: Number(product.stock),
         requiereReceta: product.requiresPrescription || false,
-        categoria: (categoryId && !isNaN(categoryId)) ? { id: categoryId } : null,
-        laboratorio: (laboratoryId && !isNaN(laboratoryId)) ? { id: laboratoryId } : null,
+        categoria: validCategory ? { id: categoryId } : null,
+        laboratorio: validLaboratory ? { id: laboratoryId } : null,
+        tipoFabricacion: validFabricationType ? { id: fabricationTypeId } : null,
         imagenes: []
     };
 };
@@ -40,10 +48,12 @@ export const addImageToProduct = async (productId, imageUrl) => {
             url: imageUrl,
             producto: { id: productId }
         };
+        console.log('Asociando imagen al producto:', imageData);
         await post('/imagenes', imageData);
         return true;
     } catch (error) {
         console.error('Error al asociar imagen al producto:', error);
+        console.error('Detalles del error:', error.response?.data);
         return false;
     }
 };
@@ -114,6 +124,8 @@ export const searchProducts = async (searchTerm) => {
 export const createProduct = async (productData, imageUrl = null) => {
     try {
         const backendProduct = mapProductToBackend(productData);
+        // backendProduct.imagenes is already set by mapProductToBackend
+
         const newProduct = await post('/productos', backendProduct);
 
         if (imageUrl) {
@@ -124,7 +136,8 @@ export const createProduct = async (productData, imageUrl = null) => {
         return mapProductFromBackend(newProduct);
     } catch (error) {
         console.error('Error al crear producto:', error);
-        throw error;
+        const errorMsg = error.response?.data?.message || error.response?.data?.error || error.message || 'Error desconocido';
+        throw new Error(errorMsg);
     }
 };
 
@@ -135,7 +148,6 @@ export const updateProduct = async (id, productData, imageUrl = null) => {
         console.log('=== UPDATE PRODUCT ===');
         console.log('ID:', id);
         console.log('Objeto a enviar al backend:', JSON.stringify(backendProduct, null, 2));
-        console.log('URL de imagen:', imageUrl);
 
         const updatedProduct = await put(`/productos/${id}`, backendProduct);
 
@@ -147,7 +159,8 @@ export const updateProduct = async (id, productData, imageUrl = null) => {
         return mapProductFromBackend(updatedProduct);
     } catch (error) {
         console.error(`Error al actualizar producto ${id}:`, error);
-        throw error;
+        const errorMsg = error.response?.data?.message || error.response?.data?.error || error.message || 'Error desconocido';
+        throw new Error(errorMsg);
     }
 };
 
@@ -160,7 +173,8 @@ export const deleteProduct = async (id) => {
         return true;
     } catch (error) {
         console.error(`Error al eliminar producto ${id}:`, error);
-        throw error;
+        const errorMsg = error.response?.data?.message || error.response?.data?.error || error.message || 'Error desconocido';
+        throw new Error(errorMsg);
     }
 };
 
@@ -197,6 +211,22 @@ export const getLaboratories = async () => {
 };
 
 /**
+ * Obtener todos los tipos de fabricación
+ */
+export const getFabricationTypes = async () => {
+    try {
+        const tipos = await get('/tipos-fabricacion');
+        return tipos.map(tipo => ({
+            id: tipo.id,
+            name: tipo.nombre
+        }));
+    } catch (error) {
+        console.error('Error al obtener tipos de fabricación:', error);
+        return [];
+    }
+};
+
+/**
  * Función para obtener los productos destacados/con descuento
  * (Por ahora retorna los primeros 6)
  */
@@ -221,6 +251,7 @@ export default {
     deleteProduct,
     getCategories,
     getLaboratories,
+    getFabricationTypes,
     getFeaturedProducts,
     addImageToProduct
 };

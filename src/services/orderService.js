@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://efarmaplusback.onrender.com/api';
+const API_URL = 'https://efarmaback2.onrender.com/api';
 
 class OrderService {
 

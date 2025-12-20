@@ -11,6 +11,8 @@ const Register = () => {
     const [formData, setFormData] = useState({
         nombre: '',
         email: '',
+        rut: '',
+        telefono: '',
         password: '',
         confirmPassword: ''
     });
@@ -74,6 +76,8 @@ const Register = () => {
             const userData = {
                 nombre: formData.nombre,
                 email: formData.email,
+                rut: formData.rut,
+                telefono: formData.telefono,
                 password: formData.password
             };
 
@@ -87,9 +91,13 @@ const Register = () => {
                 }, 1000);
             } catch (error) {
                 console.error("Error registration", error);
+                if (error.response?.data) {
+                    console.error("Backend error details:", error.response.data);
+                }
+                const errorMessage = error.response?.data?.message || error.message || 'Error al registrar usuario. Intente nuevamente.';
                 setErrors(prev => ({
                     ...prev,
-                    general: 'Error al registrar usuario. Intente nuevamente.'
+                    general: errorMessage
                 }));
             }
         }
@@ -122,6 +130,38 @@ const Register = () => {
                         />
                         {errors.nombre && (
                             <span className="error-message">{errors.nombre}</span>
+                        )}
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="rut">RUT</label>
+                        <input
+                            type="text"
+                            id="rut"
+                            name="rut"
+                            value={formData.rut}
+                            onChange={handleChange}
+                            className={errors.rut ? 'error' : ''}
+                            placeholder="12.345.678-9"
+                        />
+                        {errors.rut && (
+                            <span className="error-message">{errors.rut}</span>
+                        )}
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="telefono">Teléfono</label>
+                        <input
+                            type="text"
+                            id="telefono"
+                            name="telefono"
+                            value={formData.telefono}
+                            onChange={handleChange}
+                            className={errors.telefono ? 'error' : ''}
+                            placeholder="+56 9 1234 5678"
+                        />
+                        {errors.telefono && (
+                            <span className="error-message">{errors.telefono}</span>
                         )}
                     </div>
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://efarmaplusback.onrender.com/api';
+const API_URL = 'https://efarmaback2.onrender.com/api/usuarios';
 
 class UserService {
 
@@ -25,11 +25,11 @@ class UserService {
 
     _mapUserToBackend(user) {
         return {
-            rut: user.rut || '',
+            rut: user.rut || null,
             contacto: user.nombre,
             correo: user.email,
-            contrasenaHash: user.password || '',
-            telefono: user.telefono || '',
+            contrasena: user.password || '',
+            telefono: user.telefono || null,
             rol: user.rolId ? { id: user.rolId } : null
         };
     }

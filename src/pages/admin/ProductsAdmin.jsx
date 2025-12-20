@@ -173,7 +173,7 @@ const ProductsAdmin = () => {
                 await productService.updateProduct(
                     editingProduct.id,
                     productData,
-                    imageUrl
+                    formData.image instanceof File ? imageUrl : null
                 );
 
                 await loadData();

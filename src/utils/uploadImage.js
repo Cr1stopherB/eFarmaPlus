@@ -2,23 +2,41 @@ import Resizer from 'react-image-file-resizer';
 
 const IMGBB_API_KEY = import.meta.env.VITE_IMGBB_API_KEY;
 
-export const uploadToImgBB = async (file) => {
+export const uploadToImgBB = async (file, options = {}) => {
+    // Validar API Key
+    if (!IMGBB_API_KEY) {
+        console.error('Falta la API KEY de ImgBB en las variables de entorno (VITE_IMGBB_API_KEY)');
+        throw new Error('Configuración incompleta: Falta API Key de imágenes');
+    }
+
+    // Opciones por defecto
+    const {
+        maxWidth = 1024,
+        maxHeight = 1024,
+        compressFormat = 'WEBP',
+        quality = 80,
+        rotation = 0,
+        outputType = 'base64'
+    } = options;
+
     return new Promise((resolve, reject) => {
         Resizer.imageFileResizer(
             file,
-            1024,         // maxWidth (número)
-            1024,         // maxHeight (número)
-            'WEBP',       // format (string)
-            80,           // quality (número)
-            0,            // rotation (número)
-            async (uri) => {  // callback (función)
+            maxWidth,
+            maxHeight,
+            compressFormat,
+            quality,
+            rotation,
+            async (uri) => {
                 try {
                     if (!uri || typeof uri !== 'string') {
                         reject(new Error("Error al procesar imagen"));
                         return;
                     }
 
-                    const base64 = uri.split(',')[1];
+                    // Extraer base64 si es necesario
+                    const base64 = uri.includes('base64,') ? uri.split(',')[1] : uri;
+
                     if (!base64) {
                         reject(new Error("Base64 inválido"));
                         return;
@@ -38,15 +56,18 @@ export const uploadToImgBB = async (file) => {
                         resolve({
                             url: result.data.url,
                             preview: uri,
+                            fullData: result.data
                         });
                     } else {
-                        reject(new Error(result.error?.message || "Error al subir"));
+                        console.error('Error ImgBB:', result);
+                        reject(new Error(result.error?.message || "Error al subir a ImgBB"));
                     }
                 } catch (err) {
+                    console.error('Error de red al subir imagen:', err);
                     reject(err);
                 }
             },
-            'base64'      // outputType (string)
+            outputType
         );
     });
 };

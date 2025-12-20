@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { post } from '../services/api';
+import userService from '../services/userService';
 
 // Crear contexto
 const AuthContext = createContext();
@@ -47,18 +47,16 @@ export const AuthProvider = ({ children }) => {
     };
 
     // Función para registrar usuario
-    // Función para registrar usuario
     const register = async (userData) => {
         try {
-            // Enviar al backend
-            const response = await post('/usuarios', userData);
-
-            // Agregar rol por defecto si el backend no lo devuelve
-            const userWithRole = {
+            // Preparar datos para el servicio
+            const dataToService = {
                 ...userData,
-                ...response, // Usar datos del backend si existen
-                rol: response?.rol || userData.rol || 'usuario'
+                rolId: 1 // Rol por defecto: Usuario (ID 1)
             };
+
+            // Usar el servicio de usuarios que ya tiene el mapeo correcto
+            const userWithRole = await userService.createUser(dataToService);
 
             setUser(userWithRole);
             localStorage.setItem('user', JSON.stringify(userWithRole));
